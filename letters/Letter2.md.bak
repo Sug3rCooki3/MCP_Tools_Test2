@@ -1,0 +1,326 @@
+Subject: Build Specification for Spending Graph MCP Tool
+
+Dear Coding Agent,
+
+I want you to design and implement a dedicated MCP graph tool for our finance chatbot application. The application stack is TypeScript + Node.js + Next.js, and the chatbot uses the GPT API for conversation. This graph tool must allow authenticated users to view visual summaries of their saved financial data, including categories such as rent, food, subscriptions, daily spending, transportation, utilities, and other expenses.
+
+The goal of this tool is to provide a reliable and structured way for the chatbot to request chart data, while ensuring that all calculations, aggregations, and formatting are handled by backend logic rather than the language model itself.
+
+Primary Objective
+
+Create a graph-focused MCP tool that reads a user’s saved financial data and returns structured chart-ready data for frontend rendering. The tool should support at minimum:
+
+bar graphs
+pie graphs
+
+These graphs should help users understand:
+
+category-based spending
+time-based spending trends
+relative proportion of expenses
+high-level financial patterns
+
+The language model should explain the result in natural language, but it must not perform the graph math itself. All totals, aggregations, percentages, and filters must come from deterministic backend logic.
+
+Core Functional Requirements
+
+The graph MCP tool must support the following use cases:
+
+Show a user’s spending by category for a selected date range
+Show monthly spending totals over time
+Show yearly spending summaries
+Show filtered visualizations based on selected categories
+Support both bar and pie chart output modes
+Allow the frontend to re-render graphs when category filters or date ranges change
+
+At MVP level, the graph tool must at least support:
+
+yearly spending by category
+monthly spending trend
+pie chart of expense distribution
+category filtering
+Authentication and Data Ownership
+
+This tool must be treated as a protected MCP tool.
+
+Requirements:
+
+only authenticated users can access their graph data
+the tool must never accept a raw user ID from the model as trusted input
+the authenticated application session must determine the active user
+all queries must enforce user ownership at the database and service level
+users must only be able to access their own spending records
+
+The model must not decide authorization. Authorization must be enforced entirely server-side.
+
+Architecture Requirements
+
+The graph tool should follow this architecture:
+
+Frontend
+
+The frontend should:
+
+provide user controls for graph type, date range, and category filters
+render the graph using chart-ready JSON returned by the backend
+support switching between bar and pie views
+display summaries and loading/error states
+GPT Layer
+
+The GPT layer should:
+
+understand the user’s request
+choose the graph tool when appropriate
+explain the graph output in plain language
+MCP Tool Layer
+
+The MCP tool should:
+
+receive validated chart request parameters
+fetch the authenticated user’s relevant financial data
+aggregate and compute totals
+generate structured output for chart rendering
+return deterministic and consistent results
+Business Logic Layer
+
+The business logic should:
+
+calculate grouped expense totals
+compute percentages for pie charts
+calculate totals for date ranges
+support grouping by category and month
+prepare reusable chart datasets
+Persistence Layer
+
+The database layer should:
+
+store transactions and categories in normalized form
+support efficient date-range and category-based queries
+enforce ownership through user-linked records
+Tool Design Requirements
+
+Create a dedicated tool, such as:
+
+get_spending_chart_data
+
+This tool should support inputs such as:
+
+chart type
+grouping mode
+date range
+selected year or month
+included categories
+
+Possible parameters include:
+
+chartType: bar or pie
+groupBy: category or month
+startDate
+endDate
+year
+includeCategories
+
+The exact schema should be defined and documented clearly.
+
+The tool output must be structured, predictable, and chart-ready. At minimum it should include:
+
+title
+chart type
+labels
+values
+currency
+total
+selected date range
+selected categories
+basic highlights such as largest category or highest month
+
+The output must be designed for frontend rendering rather than prose generation.
+
+Data Model Requirements
+
+Ensure the financial storage model supports graph generation cleanly.
+
+At minimum, the data model should account for:
+
+users
+transactions
+categories
+optional budgets for future graph comparisons
+
+Transaction records should support:
+
+user linkage
+amount
+transaction date
+merchant or description
+category assignment
+transaction type
+
+Category records should support:
+
+category name
+stable identifier or slug
+optional display metadata for UI use later
+Spec and Sprint Requirements
+
+Create a dedicated spec for this graph tool inside:
+
+docs/spec_folder
+
+This spec must include:
+
+feature name
+purpose
+business value
+user stories
+functional requirements
+non-functional requirements
+acceptance criteria
+tool input schema requirements
+tool output schema requirements
+UI behavior expectations
+validation rules
+security requirements
+ownership enforcement requirements
+logging and observability
+dependencies
+testing requirements
+
+Then convert this spec into implementation sprints.
+
+Each sprint must include:
+
+sprint goal
+concrete implementation tasks
+test tasks
+deliverables
+risks
+done criteria
+UI/UX Requirements
+
+The graph experience should be practical and easy to use.
+
+At MVP level, include:
+
+graph type toggle between bar and pie
+date range selector
+category filter checkboxes
+summary label above or near the chart
+empty state when no data exists
+error state when loading fails
+
+The UI should not depend on the model to format chart data. It should only consume structured data from the graph tool.
+
+Validation Requirements
+
+All tool inputs must be strictly validated.
+
+Validate:
+
+allowed chart types
+valid date ranges
+valid category filters
+supported grouping modes
+empty data conditions
+malformed requests
+unauthorized access attempts
+
+Return safe, consistent errors for invalid requests.
+
+Logging and Observability
+
+The system must log graph tool usage in a useful way.
+
+At minimum log:
+
+authenticated user context
+tool name
+timestamp
+requested chart type
+date range
+selected categories
+success or failure result
+validation or authorization failures
+
+Do not expose sensitive internal details in user-facing responses.
+
+Testing Requirements
+
+You must define and implement:
+
+positive tests
+negative tests
+edge case tests
+
+These must be included across:
+
+unit tests
+integration tests
+end-to-end tests
+Unit tests should cover:
+category aggregation logic
+monthly grouping logic
+percentage calculations for pie charts
+empty dataset handling
+validation logic
+label/value formatting
+Integration tests should cover:
+authenticated tool execution
+database queries for user-owned transactions
+graph dataset generation from stored records
+filtered queries by category and date range
+blocked unauthorized access
+invalid parameter handling
+End-to-end tests should cover:
+logged-in user requests spending graph
+chatbot invokes graph tool
+graph renders correctly in UI
+category filters update graph results
+switching bar to pie works correctly
+empty-state behavior for users without data
+unauthorized users are prevented from access
+
+Be explicit about positive, negative, and edge cases for each of these layers.
+
+Engineering Standards
+
+The implementation must follow:
+
+SOLID principles
+appropriate Gang of Four patterns where useful
+clean separation of concerns
+deterministic calculations
+reusable service abstractions
+clear interfaces between UI, tool execution, business logic, and persistence
+
+Do not over-engineer the solution, but do not allow graph logic to become mixed directly into the chat layer.
+
+MVP Acceptance Criteria
+
+This feature is considered complete at MVP level when:
+
+an authenticated user can request a spending graph
+the backend returns correct chart-ready data
+the frontend renders a bar or pie chart correctly
+category and date filters work
+the model explains the result using tool data
+unauthorized access is blocked
+test coverage exists across unit, integration, and e2e layers
+the feature is documented in docs/spec_folder
+Deliverables
+
+I expect the following deliverables:
+
+a dedicated graph MCP tool spec in docs/spec_folder
+a sprint breakdown for graph tool implementation
+the tool schema definitions
+backend aggregation and formatting logic
+authenticated graph data access
+frontend graph rendering integration
+unit, integration, and e2e test coverage
+documentation of how the graph feature works and how it is extended later
+Execution Guidance
+
+Work systematically. Start by defining the graph feature boundary, then the tool schema, then the data aggregation logic, then the UI contract, then the tests.
+
+Do not implement this as a loose visualization helper. Implement it as a proper product feature with a clear contract between the chat system, the MCP tool, and the frontend.
