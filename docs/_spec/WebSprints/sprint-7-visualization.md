@@ -10,12 +10,14 @@
 
 Add chart rendering to the chat interface. After this sprint, when the user asks for a spending graph via chat, the system returns a rendered bar or pie chart alongside GPT's natural-language explanation. The chart data comes from the `get_spending_chart_data` MCP tool — the frontend only renders it.
 
+> **Note:** This sprint provides the high-level plan. The Graph Sprint series (Graph Sprints 1–5) contains the detailed, task-level implementation plan for the full graph feature including schema, aggregation, GPT integration, and rendering. Follow the Graph Sprints for implementation.
+
 ---
 
 ## Implementation Tasks
 
-1. **Install a chart library**
-   - Choose Recharts or Chart.js (with a React wrapper)
+1. **Install chart library**
+   - Use Recharts (recommended — native React components, no wrapper needed, good Next.js integration)
    - Install and configure as a frontend dependency
 
 2. **Build a chart rendering component**

@@ -2,7 +2,7 @@
 
 **References:** Letter2 Sections 3, 6
 
-**Depends on:** Letter1 Sprint 2 (data model), Letter1 Sprint 3 (calculation engine), Letter1 Sprint 4 (MCP tool registration pattern)
+**Depends on:** Letter1 Sprint 2 (data model), Letter1 Sprint 4 (MCP tool registration pattern)
 
 ---
 

@@ -50,11 +50,10 @@ Build the MCP tool layer that exposes all financial operations as callable tools
    - `get_percentages` — percentage of total spend per category
    - Calls the calculation engine for all math
 
-7. **Implement Chart Data Generation tool**
-   - `get_spending_chart_data` — returns structured chart-ready JSON (as defined in Letter2 Section 3)
-   - Input: chartType, groupBy, date range, categories
-   - Output: title, labels, values, total, highlights, etc.
-   - Calls the calculation engine for aggregation
+7. **Chart Data Generation tool — deferred to Graph Sprint series**
+   - The `get_spending_chart_data` tool is fully specified and implemented in Graph Sprints 1–2
+   - Do not implement it in this sprint — the Graph Sprint series handles schema, validation, stub, and real aggregation logic
+   - Ensure the MCP registration system from Task 1 is ready for the graph sprints to register this tool
 
 8. **Implement prompt injection defense for all tools**
    - Validate and constrain all incoming parameters server-side before executing any tool
@@ -71,7 +70,8 @@ Build the MCP tool layer that exposes all financial operations as callable tools
 ## Expected Deliverables
 
 - MCP tool registration system
-- 7 tools implemented: Transaction CRUD, Budget CRUD, Spending Summary, Budget Comparison, Averages/Percentages, Chart Data
+- 6 tools implemented: Transaction CRUD, Budget CRUD, Spending Summary, Budget Comparison, Averages, Percentages
+- Chart data tool deferred to Graph Sprint series (Graph Sprints 1–2)
 - Zod schemas for every tool's input and output
 - Prompt injection defenses on all tool inputs
 - Tool descriptions for GPT consumption
@@ -112,7 +112,7 @@ Build the MCP tool layer that exposes all financial operations as callable tools
 - `get_spending_summary` → returns correct totals from seeded data
 - `compare_budget` → returns correct comparison from seeded data
 - `get_averages` / `get_percentages` → returns correct calculations from seeded data
-- `get_spending_chart_data` → returns valid chart-ready JSON from seeded data
+- `get_spending_chart_data` → deferred to Graph Sprints (verify MCP registration system supports it)
 - Prompt injection attempt (e.g., SQL injection in category name) → rejected safely
 
 ### Edge case tests:
@@ -125,7 +125,7 @@ Build the MCP tool layer that exposes all financial operations as callable tools
 
 ## Done Criteria
 
-- [ ] All 7 tools implemented with Zod schemas
+- [ ] All 6 tools implemented with Zod schemas (chart data tool deferred to Graph Sprints)
 - [ ] All tools callable through the MCP registration system
 - [ ] All tools return validated, typed output
 - [ ] Prompt injection defenses active on every tool

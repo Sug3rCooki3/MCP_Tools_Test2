@@ -41,8 +41,8 @@ Build the deterministic financial calculation engine that all MCP tools will use
 
 6. **Implement percentage calculations**
    - Percentage of total spend per category
-   - Return as integer basis points (e.g., 2550 = 25.50%) or as a decimal with defined precision
-   - Percentages must sum to 100% (handle rounding distribution)
+   - Return as integer basis points (10000 = 100.00%, 2550 = 25.50%) — consistent with the integer-cents principle
+   - Percentages must sum to 10000 basis points (handle rounding distribution with largest remainder method)
 
 7. **Implement budget vs. actual comparison**
    - Given a category and period, compare actual spend to budget amount
@@ -51,7 +51,7 @@ Build the deterministic financial calculation engine that all MCP tools will use
 
 8. **Define typed interfaces for all inputs and outputs**
    - Every function takes typed input and returns typed output
-   - Use Zod schemas or TypeScript interfaces (consistent with the rest of the codebase)
+   - Use Zod schemas for validation (source of truth) and derive TypeScript types from them with `z.infer`
 
 ---
 
@@ -97,7 +97,7 @@ Build the deterministic financial calculation engine that all MCP tools will use
 - Averages: zero transactions returns 0
 - Percentages: known dataset produces expected percentages
 - Percentages: single category returns 100%
-- Percentages: percentages sum to exactly 100% after rounding
+- Percentages: percentages sum to exactly 10000 basis points after rounding
 - Budget comparison: over budget returns correct difference and flag
 - Budget comparison: under budget returns correct difference and flag
 - Budget comparison: exactly on budget returns zero difference
@@ -113,7 +113,7 @@ Build the deterministic financial calculation engine that all MCP tools will use
 - [ ] All calculation functions implemented and typed
 - [ ] All functions use integer cents — no floating-point money math
 - [ ] All functions handle empty input gracefully
-- [ ] Percentage rounding distributes correctly to sum to 100%
+- [ ] Percentage rounding distributes correctly to sum to 10000 basis points
 - [ ] Budget comparison handles all cases (over, under, exact, no budget)
 - [ ] All unit tests pass
 - [ ] Integration tests confirm correct results from seeded database

@@ -23,7 +23,7 @@ Build the GPT orchestration layer that connects user chat messages to MCP tool c
 2. **Define the tool-calling interface for GPT**
    - Register all MCP tools as GPT function/tool definitions
    - Include tool names, descriptions, and parameter schemas in the format GPT expects
-   - Ensure tool definitions stay in sync with actual MCP tool schemas (single source of truth or generated from Zod schemas)
+   - Ensure tool definitions stay in sync with actual MCP tool schemas — generate GPT tool definitions from Zod schemas (single source of truth) to prevent drift
 
 3. **Implement request construction**
    - Build the GPT request from: system prompt, conversation history, user message, and available tools

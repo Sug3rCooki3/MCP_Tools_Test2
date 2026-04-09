@@ -12,10 +12,12 @@ Establish the repository structure, development environment, tooling, and coding
 
 ## Implementation Tasks
 
-1. **Initialize the monorepo or project structure**
-   - Create the Next.js frontend app (TypeScript)
-   - Create the Node.js backend / MCP server (TypeScript)
-   - Define the folder layout (e.g., `src/`, `server/`, `shared/`, `docs/`, `tests/`)
+1. **Initialize the project structure**
+   - Create the Next.js frontend app (TypeScript) in a `frontend/` directory (or use Next.js API routes for the backend — decide and document the choice)
+   - If using a separate backend: create the Node.js backend / MCP server in a `server/` directory
+   - Create a `shared/` directory for types, schemas, and interfaces used by both frontend and backend
+   - Create a `tests/` directory (or co-locate tests with source — decide and document)
+   - Create `docs/` for specs and sprint files
    - Add a root `README.md` with project overview and setup instructions
 
 2. **Configure TypeScript**
@@ -43,6 +45,7 @@ Establish the repository structure, development environment, tooling, and coding
    - Install SQLite driver (e.g., `better-sqlite3` or `drizzle-orm` with SQLite adapter)
    - Create a database initialization script or connection utility
    - Confirm the database file path is configurable via env
+   - Add `*.sqlite` and `*.db` files to `.gitignore`
 
 7. **Install Zod**
    - Add Zod as a dependency
@@ -50,6 +53,8 @@ Establish the repository structure, development environment, tooling, and coding
 
 8. **Define local development workflow**
    - Scripts for: `dev` (start frontend + backend), `build`, `test`, `lint`, `format`
+   - If frontend and backend are separate processes, use `concurrently` (or similar) to run both with a single `npm run dev` command
+   - If using Next.js API routes for the backend, a single `next dev` is sufficient
    - Documented in README
 
 ---

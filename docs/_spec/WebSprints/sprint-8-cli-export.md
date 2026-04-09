@@ -15,12 +15,12 @@ Build the CLI export utility and perform final integration validation. After thi
 ## Implementation Tasks
 
 1. **Build the CLI export script**
-   - Create a script (e.g., `scripts/export.ts` or `scripts/export.sh`) that concatenates all source and test files into a single output file
+   - Create a script (`scripts/export.ts`) that concatenates all source and test files into a single output file
    - Each file section must include the relative file path as a heading (e.g., `=== src/server/tools/transaction.ts ===`)
    - Output to a file (e.g., `export/codebase-export.txt`)
 
 2. **Define file inclusion rules**
-   - Include: all `.ts`, `.tsx`, `.json` (config files), `.md` (docs) files from `src/`, `server/`, `tests/`, `docs/`, and root config files
+   - Include: all `.ts`, `.tsx`, `.json` (config files), `.md` (docs) files from `frontend/`, `server/`, `shared/`, `tests/`, `docs/`, and root config files
    - Exclude: `node_modules/`, build output (`.next/`, `dist/`), `.env`, database files (`.sqlite`, `.db`), `export/` output itself
    - Document the inclusion/exclusion rules in the script or a comment at the top of the output
 

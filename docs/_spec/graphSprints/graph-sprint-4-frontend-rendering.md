@@ -15,7 +15,7 @@ Render bar and pie charts inline in the chat interface using the structured data
 ## Implementation Tasks
 
 1. **Install chart library (if not done in Letter1 Sprint 7)**
-   - Recharts or Chart.js with a React wrapper
+   - Use Recharts (recommended — native React components, no wrapper needed, good Next.js integration)
    - Confirm it supports both bar and pie chart types
 
 2. **Build the chart rendering component**
